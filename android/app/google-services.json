@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "554065461030",
+    "project_id": "eventplanning-a11fb",
+    "storage_bucket": "eventplanning-a11fb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:554065461030:android:83f0a1a28feaa889dd0be7",
+        "android_client_info": {
+          "package_name": "com.example.event_planner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "554065461030-eqtb4e3q4ir2el1f0f29i531d42083si.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8yrbuLiRuOBgFw_WgNxDjS8achUf67nk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "554065461030-eqtb4e3q4ir2el1f0f29i531d42083si.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "554065461030-7kdtu2ppda0tcv732rloseb2rsq8ap69.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.eventPlannerModerator"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:554065461030:android:b610e2ac300f93f7dd0be7",
+        "android_client_info": {
+          "package_name": "com.example.event_planner_moderator"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "554065461030-sa87tr672m8ekg3d78cagmv10bmi1bo4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.event_planner_moderator",
+            "certificate_hash": "e90dae3a152d9603e2c8bd73609ead0fabfe9928"
+          }
+        },
+        {
+          "client_id": "554065461030-eqtb4e3q4ir2el1f0f29i531d42083si.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8yrbuLiRuOBgFw_WgNxDjS8achUf67nk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "554065461030-eqtb4e3q4ir2el1f0f29i531d42083si.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "554065461030-7kdtu2ppda0tcv732rloseb2rsq8ap69.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.eventPlannerModerator"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
