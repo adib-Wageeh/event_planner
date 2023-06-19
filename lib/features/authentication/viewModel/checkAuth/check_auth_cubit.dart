@@ -3,10 +3,9 @@ import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:device_information/device_information.dart';
 import 'package:event_planner/models/code_model/user_model.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../../../models/repositories/codes_repository.dart';
-
 part 'check_auth_state.dart';
 
 class CheckAuthCubit extends Cubit<CheckAuthState> {
@@ -36,13 +35,13 @@ class CheckAuthCubit extends Cubit<CheckAuthState> {
                 emit(CheckAuthAuthenticated(userModel: r));
               });
             }else{
-                emit(CheckAuthPermissionRejectedPermanently());
+                emit(CheckAuthPermissionRejected());
               }
             });
       }else if (res == 2){
         emit(CheckAuthPermissionRejected());
       }else{
-        emit(CheckAuthPermissionRejectedPermanently());
+        emit(CheckAuthPermissionRejected());
       }
 
   }

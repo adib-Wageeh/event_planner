@@ -1,3 +1,5 @@
+import 'package:event_planner/features/adminHome/viewModel/addEvent/add_event_cubit.dart';
+import 'package:event_planner/features/adminHome/viewModel/getEvents/get_events_cubit.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,6 +22,8 @@ void main() async{
     BlocProvider(create: (context)=> CheckAuthCubit()..checkAuth()),
     BlocProvider(create: (context)=> RegisterCubit()),
     BlocProvider(create: (context)=> UserCubit()),
+    BlocProvider(create: (context)=> GetEventsCubit()),
+    BlocProvider(create: (context)=> AddEventCubit()),
 
   ],
       child:  MaterialApp(

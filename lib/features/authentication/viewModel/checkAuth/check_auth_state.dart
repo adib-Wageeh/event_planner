@@ -19,4 +19,3 @@ class CheckAuthBlocked extends CheckAuthState {}
 class CheckPermissionAccepted extends CheckAuthState {}
 
 class CheckAuthPermissionRejected extends CheckAuthState {}
-class CheckAuthPermissionRejectedPermanently extends CheckAuthState {}

@@ -21,7 +21,7 @@ class PermissionRejectedWidget extends StatelessWidget {
           children:  [
             const Text(textAlign: TextAlign.center,"You can not use the app without accepting phone permission"),
             const SizedBox(height: 8,),
-            const Text("Please enable phone permission in app settings"),
+            const Text("Please enable phone permission in app settings",textAlign: TextAlign.center),
             const SizedBox(height: 8,),
             ElevatedButton(onPressed: (){
               context.read<CheckAuthCubit>().checkAuth();
