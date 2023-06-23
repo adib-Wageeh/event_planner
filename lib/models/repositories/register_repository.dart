@@ -23,12 +23,18 @@ class RegisterRepository{
       }
       );
     }else{
-      codeSnapshot.docs[0].reference.collection("users").add({
-        "username": username,
-        "imei": imeiNo,
-        "fcmToken": fcmToken
+      final usernameCount = await codeSnapshot.docs[0].reference.collection("users").where("username",isEqualTo: username).get();
+      if(usernameCount.size == 0) {
+        codeSnapshot.docs[0].reference.collection("users").add({
+          "username": username,
+          "imei": imeiNo,
+          "fcmToken": fcmToken
+        }
+        );
+      }else{
+        return const Left(true);
       }
-      );
+
     }
     int users = codeSnapshot.docs[0].data()["employee"];
     users +=1;

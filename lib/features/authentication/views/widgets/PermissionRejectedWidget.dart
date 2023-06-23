@@ -4,7 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../viewModel/checkAuth/check_auth_cubit.dart';
 
 class PermissionRejectedWidget extends StatelessWidget {
-  const PermissionRejectedWidget({Key? key}) : super(key: key);
+  final String permission;
+  const PermissionRejectedWidget({required this.permission,Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +20,9 @@ class PermissionRejectedWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children:  [
-            const Text(textAlign: TextAlign.center,"You can not use the app without accepting phone permission"),
+            Text(textAlign: TextAlign.center,"You can not use the app without accepting $permission permission"),
             const SizedBox(height: 8,),
-            const Text("Please enable phone permission in app settings",textAlign: TextAlign.center),
+            Text("Please enable $permission permission in app settings",textAlign: TextAlign.center),
             const SizedBox(height: 8,),
             ElevatedButton(onPressed: (){
               context.read<CheckAuthCubit>().checkAuth();

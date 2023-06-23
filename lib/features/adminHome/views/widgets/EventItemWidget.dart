@@ -1,7 +1,12 @@
+import 'package:event_planner/constants.dart';
+import 'package:event_planner/features/adminHome/viewModel/deleteEvent/delete_event_cubit.dart';
+import 'package:event_planner/features/authentication/viewModel/current_user/current_user_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-
 import '../../../../models/event_model/event_model.dart';
+import '../../../userHome/views/widgets/AcceptOrRefuseEventWidget.dart';
+import 'FileWidget.dart';
 import 'TextEventItemWidget.dart';
 
 class EventItemWidget extends StatelessWidget {
@@ -22,47 +27,35 @@ class EventItemWidget extends StatelessWidget {
           child: Column(
             children: [
               ListTile(
-                title: SizedBox(
-                  width: double.infinity,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TextEventItemWidget(text: event.name,label: "Event: "),
-                    ],
-                  ),
+                title: Row(
+                  children: [
+                    Expanded(
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            TextEventItemWidget(text: event.name,label: "Event: "),
+                          ],
+                        ),
+                      ),
+                    ),
+                    (context.read<UserCubit>().state!.isAdmin)?
+                    DeleteEventWidget(eventModel: event,codeId: context.read<UserCubit>().state!.codeModel.id,):Container()
+                  ],
                 ),
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TextEventItemWidget(text: DateFormat('dd/MM/yyyy hh:mm a').format(event.date),label: "Date: ",textColor: textColor,),
-                    ...event.files.map((e) => FileWidget(file: e,)).toList()
+                    ...event.files.map((e) => FileWidget(file: e,eventName: event.name,)).toList()
                   ],
-                )
-                // trailing: ActivationButtonCodeItemWidget(code: code),
+                ),
               ),
-
-              // Row(
-              //   mainAxisSize: MainAxisSize.min,
-              //   children: [
-              //     ButtonCodeItemWidget(icon: Icons.edit_note,text: "Edit", onPress: (){
-              //       showDialog(
-              //           barrierDismissible: false
-              //           , context: context, builder: (context) {
-              //         return EditCodeWidget(codeModel: code,);
-              //       });
-              //     }, ),
-              //     const SizedBox(width: 12,),
-              //     ButtonCodeItemWidget(onPress: (){
-              //       showDialog(
-              //         context: context,
-              //         builder: (BuildContext context) {
-              //           return DeleteDialogBoxWidget(code: code,);
-              //         },
-              //       );
-              //     }, text: "Delete", icon: Icons.delete,
-              //     ),
-              //   ],
-              // ),
+              (context.read<UserCubit>().state!.isAdmin)?
+                  Container():
+              (context.read<UserCubit>().state!.isAdmin)?
+                  Container(): AcceptOrRefuseEventWidget(codeId: context.read<UserCubit>().state!.codeModel.id,eventModel: event,username: context.read<UserCubit>().state!.username,)
             ],
           ),
         )
@@ -70,17 +63,47 @@ class EventItemWidget extends StatelessWidget {
   }
 }
 
-class FileWidget extends StatelessWidget {
-  final FileData file;
-  const FileWidget({required this.file,Key? key}) : super(key: key);
+class DeleteEventWidget extends StatelessWidget {
+  final EventModel eventModel;
+  final String codeId;
+  const DeleteEventWidget({required this.codeId,required this.eventModel,Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return  Row(
-      children: [
-        Expanded(child: Text(file.fileName)),
-        TextButton(onPressed: (){}, child: const Text("Download",style: TextStyle(color: Colors.blue),))
-      ],
-    );
+    return  IconButton(onPressed: (){
+
+      showDialog(context: context, builder: (context){
+        return AlertDialog(
+          title: const Text("are you sure you want to delete the event ?"),
+          actions:
+          [
+            BlocBuilder<DeleteEventCubit,DeleteEventState>(
+              builder: (context,state){
+                if(state is DeleteEventLoading){
+                  return Container();
+                }
+               return TextButton(onPressed: (){
+                  Navigator.pop(context);
+                }, child: const Text("cancel"));
+              },
+            ),
+            BlocBuilder<DeleteEventCubit,DeleteEventState>(
+              builder: (context,state){
+                if(state is DeleteEventLoading){
+                  return const Center(child: CircularProgressIndicator());
+                }
+               return ElevatedButton(onPressed: ()async{
+                 await context.read<DeleteEventCubit>().deleteEvent(eventModel, codeId);
+                 Navigator.pop(context);
+               },
+                  style: ElevatedButton.styleFrom(backgroundColor: kAppAccentColor),
+                 child: const Text("Delete"),);
+              },
+            ),
+
+          ],
+        );
+      });
+    }, icon: const Icon(Icons.delete));
   }
 }

@@ -1,3 +1,4 @@
+import 'package:event_planner/features/adminHome/viewModel/downloadFile/download_file_cubit.dart';
 import 'package:event_planner/features/adminHome/viewModel/getEvents/get_events_cubit.dart';
 import 'package:event_planner/features/adminHome/views/widgets/ListOfEventsWidget.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,13 @@ class AdminHomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return  Scaffold(
       appBar: AppBar(title: Text(context.read<UserCubit>().state!.codeModel.company)),
-      body: Column(
+      body: BlocListener<DownloadFileCubit, DownloadFileState>(
+  listener: (context, state) {
+    if(state is DownloadFileDownloaded){
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("${state.fileData.fileName} Downloaded")));
+    }
+  },
+  child: Column(
               children: [
                 Expanded(
                   child: BlocBuilder<GetEventsCubit, GetEventsState>(
@@ -35,7 +42,8 @@ class AdminHomeView extends StatelessWidget {
                 child: const AddEventButton(),
               ),
               ],
-              )
+              ),
+)
     );
   }
 }

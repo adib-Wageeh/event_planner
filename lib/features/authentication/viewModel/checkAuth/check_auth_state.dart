@@ -18,4 +18,7 @@ class CheckAuthBlocked extends CheckAuthState {}
 
 class CheckPermissionAccepted extends CheckAuthState {}
 
-class CheckAuthPermissionRejected extends CheckAuthState {}
+class CheckAuthPermissionRejected extends CheckAuthState {
+  final String permission;
+  CheckAuthPermissionRejected({required this.permission});
+}

@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:event_planner/models/event_model/event_model.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 import '../../../../models/repositories/events_repository.dart';
 import 'package:file_picker/file_picker.dart';
 
@@ -22,8 +23,9 @@ class AddEventCubit extends Cubit<AddEventState> {
       for (var element in files) {
         eventFiles.add(FileData(downloadUrl: element.path!, fileName: element.name));
       }
-      EventModel eventModel = EventModel(files:eventFiles,name: title.text, date: selectedDate!,dateAdded: DateTime.now());
-      bool res = await codeRepository.addEvent(codeId, eventModel);
+      final eventId = const Uuid().v4();
+      EventModel eventModel = EventModel(id: eventId,attendants: const [],files:eventFiles,name: title.text, date: selectedDate!,dateAdded: DateTime.now());
+      bool res = await codeRepository.addEvent(codeId, eventModel,eventId);
       if(res){
         emit(AddEventDone());
       }else{

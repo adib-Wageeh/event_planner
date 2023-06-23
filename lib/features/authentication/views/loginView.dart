@@ -10,6 +10,7 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
    return Scaffold(
       body: StreamBuilder<ConnectivityState>(
         stream: context.read<ConnectivityCubit>().stream,
