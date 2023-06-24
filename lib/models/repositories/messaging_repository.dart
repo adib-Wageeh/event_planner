@@ -10,7 +10,7 @@ class MessagingRepository{
 
   final FirebaseFirestore fireStore = FirebaseFirestore.instance;
   final FirebaseMessaging messaging = FirebaseMessaging.instance;
-  final key = 'AAAAgQDf_yY:APA91bGSGRlkjwpMZLo0oEiffbOeeqs4_TIT2dWtTz0-SPYSFrZLwSdT44At1bTfl8H_AwlN9AT10mFnPUKf4vTxU8-ygXBAGRzMQFBxzRpf0lq_aBO7LyYiIZXG3Vi1bi2DzEfqLUX3';
+  final key = '';
 
 
   Future<void> sendNotificationToUsers(String codeId, EventModel event) async {
@@ -45,9 +45,7 @@ class MessagingRepository{
           'Authorization': 'key=$key'
           }
         );
-       print(result.body);
       } catch (e) {
-        print(e);
       }
     }
 
