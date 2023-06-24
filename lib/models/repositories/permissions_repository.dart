@@ -1,7 +1,6 @@
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 enum PermissionName{
@@ -32,13 +31,13 @@ class PermissionRepository{
       final deviceInfo = await DeviceInfoPlugin().androidInfo;
       final apiLevel = deviceInfo.version.sdkInt;
       storageStatus = await Permission.storage.status;
-      if(apiLevel < 30){
+      if(apiLevel <= 30){
       if (!storageStatus.isGranted) {
         storageStatus = await Permission.storage.request();
         if(!storageStatus.isGranted){
           return PermissionName.storage;
         }
-      }
+     }
       }
     }
 

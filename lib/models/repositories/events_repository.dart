@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:uuid/uuid.dart';
 import '../event_model/event_model.dart';
 import 'messaging_repository.dart';
 
@@ -67,7 +66,6 @@ class EventsRepository{
             return {'name': file.fileName, 'url': downloadUrl};
           }),
         );
-        final docId = const Uuid().v4();
         for (var element in fileUrls) {
          await fireStore.collection('codes').doc(codeId).collection('events').doc(eventId).collection("files").add(element);
         }
@@ -88,24 +86,15 @@ class EventsRepository{
 
     Dio dio = Dio();
     try {
-      Directory dir = Directory('/data/user/0/event planner/$eventName');
-      // final directory = await getExternalStorageDirectories(type: StorageDirectory.downloads);
       // Create a file in the Downloads directory with the same name as the downloaded file
       final file = File('/storage/emulated/0/Download/event planner/$eventName/${fileData.fileName}');
 
-      final response = await dio.download(
+      await dio.download(
         fileData.downloadUrl,
         file.path,
-
       );
-      //
-      //
-      // print(file.path);
-      // final res = await OpenFile.open(file.path);
-
       return true;
     } catch (e) {
-      print(e);
       return false;
     }
   }
@@ -161,6 +150,18 @@ class EventsRepository{
     for (final Reference ref in result.items) {
       await ref.delete();
     }
+  }
+
+  Stream<EventModel> getEventAttendancesStream(EventModel eventModel,String codeId){
+
+    return fireStore.collection("codes").doc(codeId).collection("events").doc(eventModel.id).collection("users").snapshots().map((event) {
+      List<EventAttendant> eventAttendant = [];
+      for(var user in event.docs){
+        eventAttendant.add(EventAttendant(state: user.data()['type'], username: user.data()['username']));
+      }
+      return eventModel.copyWith(attendants: eventAttendant);
+    });
+
   }
 
 }

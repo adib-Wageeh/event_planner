@@ -1,4 +1,3 @@
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:event_planner/features/adminHome/viewModel/addEvent/add_event_cubit.dart';
 import 'package:event_planner/features/adminHome/viewModel/deleteEvent/delete_event_cubit.dart';
 import 'package:event_planner/features/adminHome/viewModel/downloadFile/download_file_cubit.dart';
@@ -22,7 +21,6 @@ void main() async{
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  final deviceInfo = await DeviceInfoPlugin().androidInfo;
 
   runApp(MultiBlocProvider(providers: [
     BlocProvider(create: (context)=> ConnectivityCubit()..initConnectivity()),

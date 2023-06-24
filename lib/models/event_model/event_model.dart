@@ -10,9 +10,29 @@ class EventModel extends Equatable {
   List<EventAttendant> attendants;
   EventModel({required this.id,required this.attendants,required this.files,required this.dateAdded,required this.name, required this.date});
 
+  EventModel copyWith({
+    String? name,
+    DateTime? date,
+    DateTime? dateAdded,
+    List<FileData>? files,
+    String? id,
+    List<EventAttendant>? attendants,
+  }) {
+    return EventModel(
+      name: name ?? this.name,
+      date: date ?? this.date,
+      dateAdded: dateAdded ?? this.dateAdded,
+      files: files ?? this.files,
+      id: id ?? this.id,
+      attendants: attendants ?? this.attendants,
+    );
+  }
+
   @override
   // TODO: implement props
   List<Object?> get props => [name,date,dateAdded,attendants,files];
+
+  
 }
 
 class FileData extends Equatable{

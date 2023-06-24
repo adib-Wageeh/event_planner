@@ -1,11 +1,8 @@
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:event_planner/models/event_model/event_model.dart';
 import 'package:meta/meta.dart';
-
 import '../../../../models/repositories/events_repository.dart';
-
 part 'get_events_state.dart';
 
 class GetEventsCubit extends Cubit<GetEventsState> {
@@ -26,6 +23,12 @@ class GetEventsCubit extends Cubit<GetEventsState> {
     } catch (e) {
       emit(GetEventsError(error: e.toString()));
     }
+  }
+
+
+  Stream<EventModel> getEventAttendances(EventModel eventModel,String codeId){
+
+   return eventRepository.getEventAttendancesStream(eventModel, codeId);
   }
 
   @override
