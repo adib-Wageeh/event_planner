@@ -1,27 +1,40 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class ConnectivityCubit extends Cubit<ConnectivityState> {
   ConnectivityCubit() : super(ConnectivityState(true));
-  StreamSubscription<ConnectivityResult>? _subscription;
+  StreamSubscription<InternetConnectionStatus>? _subscription;
 
   Future<void> initConnectivity() async {
-    final connectivityResult = await Connectivity().checkConnectivity();
-    if (connectivityResult == ConnectivityResult.none) {
-      emit(state.copyWith(isConnected: false));
-    }
-    _subscription = Connectivity()
-        .onConnectivityChanged
-        .listen((connectivityResult) => _onConnectionChanged(connectivityResult));
+    final InternetConnectionChecker customInstance =
+    InternetConnectionChecker.createInstance(
+      checkTimeout: const Duration(seconds: 4),
+      checkInterval: const Duration(seconds: 1),
+    );
+    _subscription =
+        customInstance.onStatusChange.listen(
+              (InternetConnectionStatus status) {
+            switch (status) {
+              case InternetConnectionStatus.connected:
+              // ignore: avoid_print
+                _onConnectionChanged(status);
+                break;
+              case InternetConnectionStatus.disconnected:
+              // ignore: avoid_print
+                _onConnectionChanged(status);
+                break;
+            }
+          },
+        );
   }
 
-  void _onConnectionChanged(ConnectivityResult connectivityResult) {
-    if (connectivityResult == ConnectivityResult.none) {
-      emit(state.copyWith(isConnected: false));
-    } else {
+  void _onConnectionChanged(InternetConnectionStatus connectivityResult) {
+    if (connectivityResult == InternetConnectionStatus.connected) {
       emit(state.copyWith(isConnected: true));
+    } else {
+      emit(state.copyWith(isConnected: false));
     }
   }
 
